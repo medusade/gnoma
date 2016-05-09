@@ -100,6 +100,27 @@ public:
     }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
+    virtual bool run() {
+        attached_t detached = 0;
+        if ((detached = this->attached_to())) {
+            GNOMA_LOG_MESSAGE_DEBUG("g_main_loop_run(detached = " << gpointer_to_string(detached) << ")...");
+            g_main_loop_run(detached);
+            GNOMA_LOG_MESSAGE_DEBUG("...g_main_loop_run(detached = " << gpointer_to_string(detached) << ")");
+            return true;
+        }
+        return false;
+    }
+    virtual bool quit() {
+        attached_t detached = 0;
+        if ((detached = this->attached_to())) {
+            GNOMA_LOG_MESSAGE_DEBUG("...g_main_loop_quit(detached = " << gpointer_to_string(detached) << ")");
+            g_main_loop_quit(detached);
+            return true;
+        }
+        return false;
+    }
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
 };
 typedef main_loopt<> main_loop;
 

@@ -21,60 +21,11 @@
 #ifndef _GNOMA_GLIB_SOURCE_HPP
 #define _GNOMA_GLIB_SOURCE_HPP
 
+#include "gnoma/glib/source_signals.hpp"
 #include "gnoma/glib/glib.hpp"
 
 namespace gnoma {
 namespace glib {
-
-///////////////////////////////////////////////////////////////////////
-///  Class: source_signalst
-///////////////////////////////////////////////////////////////////////
-template <class TImplements = implement_base>
-class _EXPORT_CLASS source_signalst: virtual public TImplements {
-public:
-    typedef TImplements Implements;
-    ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////
-    virtual gboolean on_source_signal_source_func(gpointer data) {
-        source_signalst* to = this->source_signals_forward_to();
-        if ((to)) {
-            return to->on_source_signal_source_func(data);
-        }
-        return FALSE;
-    }
-    static gboolean source_signal_source_func_callback(gpointer data) {
-        source_signalst* to = ((source_signalst*)data);
-        if ((to)) {
-            return to->on_source_signal_source_func(data);
-        }
-        return FALSE;
-    }
-    ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////
-    virtual void on_source_signal_destroy_notify(gpointer data) {
-        source_signalst* to = this->source_signals_forward_to();
-        if ((to)) {
-            return to->on_source_signal_destroy_notify(data);
-        }
-    }
-    static void source_signal_destroy_notify_callback(gpointer data) {
-        source_signalst* to = ((source_signalst*)data);
-        if ((to)) {
-            return to->on_source_signal_destroy_notify(data);
-        }
-    }
-    ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////
-    virtual source_signalst* forward_source_signals_to(source_signalst* to) {
-        return 0;
-    }
-    virtual source_signalst* source_signals_forward_to() const {
-        return 0;
-    }
-    ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////
-};
-typedef source_signalst<> source_signals;
 
 typedef GSource* source_attached_t;
 typedef xos::base::creatort<implement_base> source_creator;
@@ -145,6 +96,25 @@ public:
             }
         }
         return false;
+    }
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    using Extends::attach;
+    virtual guint attach(GMainContext* context) {
+        if ((context)) {
+            attached_t detached = 0;
+            if ((detached = this->attached_to())) {
+                guint id = 0;
+                GNOMA_LOG_MESSAGE_DEBUG("g_source_attach(detached = " << gpointer_to_string(detached) << ", context = " << gpointer_to_string(context) << ")...");
+                if ((id = g_source_attach(detached, context))) {
+                    GNOMA_LOG_MESSAGE_DEBUG("..." << id << " = g_source_attach(detached = " << gpointer_to_string(detached) << ", context = " << gpointer_to_string(context) << ")");
+                    return id;
+                } else {
+                    GNOMA_LOG_MESSAGE_DEBUG("...failed 0 on g_source_attach(detached = " << gpointer_to_string(detached) << ", context = " << gpointer_to_string(context) << ")");
+                }
+            }
+        }
+        return 0;
     }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////

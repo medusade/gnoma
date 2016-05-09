@@ -44,17 +44,19 @@ public:
     typedef main_extends Extends;
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    main(): loop_(0) {
+    main(): loop_detached_(0) {
     }
     virtual ~main() {
     }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
     virtual gboolean on_source_signal_source_func(gpointer data) {
-        g_main_loop_quit(loop_);
+        GNOMA_LOG_MESSAGE_DEBUG("...on_source_signal_source_func(data = " << gpointer_to_string(data) << ")");
+        loop_.quit();
         return FALSE;
     }
     virtual void on_source_signal_destroy_notify(gpointer data) {
+        GNOMA_LOG_MESSAGE_DEBUG("...on_source_signal_destroy_notify(data = " << gpointer_to_string(data) << ")");
     }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
@@ -71,16 +73,17 @@ public:
             if ((context_detached = context.create_attached())) {
                 guint source_id = 0;
 
-                if ((source_id = g_source_attach(source_detached, context_detached))) {
+                if ((source_id = source.attach(context_detached))) {
 
-                    if ((loop_ = gnoma::glib::main_loop().create_detached(context_detached))) {
+                    if ((loop_detached_ = loop_.create_attached(context_detached))) {
                         context_detached = 0;
 
                         source.set_callback();
-                        g_main_loop_run(loop_);
+                        loop_.run();
 
-                        if ((loop_)) {
-                            gnoma::glib::main_loop().destroy_detached(loop_);
+                        if ((loop_detached_)) {
+                            loop_detached_ = 0;
+                            loop_.destroy();
                         }
                     }
                 }
@@ -97,7 +100,8 @@ public:
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 protected:
-    GMainLoop *loop_;
+    GMainLoop* loop_detached_;
+    gnoma::glib::main_loop loop_;
 };
 
 } // namespace main_loop 

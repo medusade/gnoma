@@ -16,21 +16,20 @@
 ///   File: main.hpp
 ///
 /// Author: $author$
-///   Date: 5/7/2016
+///   Date: 5/9/2016
 ///////////////////////////////////////////////////////////////////////
-#ifndef _GNOMA_GLIB_MAIN_HPP
-#define _GNOMA_GLIB_MAIN_HPP
+#ifndef _GNOMA_CONSOLE_MAIN_HPP
+#define _GNOMA_CONSOLE_MAIN_HPP
 
-#include "gnoma/glib/glib.hpp"
-#include "gnoma/console/main.hpp"
+#include "gnoma/console/main_opt.hpp"
 
 namespace gnoma {
-namespace glib {
+namespace console {
 
-typedef console::main_implements main_implements;
-typedef console::main main;
+typedef xos::base::getopt::main_implement main_implements;
+typedef xos::base::getopt::main main;
 
-} // namespace glib
+} // namespace console
 } // namespace gnoma 
 
-#endif // _GNOMA_GLIB_MAIN_HPP 
+#endif // _GNOMA_CONSOLE_MAIN_HPP 

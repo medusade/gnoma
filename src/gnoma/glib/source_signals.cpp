@@ -13,24 +13,15 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: main.hpp
+///   File: source_signals.cpp
 ///
 /// Author: $author$
-///   Date: 5/7/2016
+///   Date: 5/9/2016
 ///////////////////////////////////////////////////////////////////////
-#ifndef _GNOMA_GLIB_MAIN_HPP
-#define _GNOMA_GLIB_MAIN_HPP
-
-#include "gnoma/glib/glib.hpp"
-#include "gnoma/console/main.hpp"
+#include "gnoma/glib/source_signals.hpp"
 
 namespace gnoma {
 namespace glib {
 
-typedef console::main_implements main_implements;
-typedef console::main main;
-
-} // namespace glib
+} // namespace glib 
 } // namespace gnoma 
-
-#endif // _GNOMA_GLIB_MAIN_HPP 
