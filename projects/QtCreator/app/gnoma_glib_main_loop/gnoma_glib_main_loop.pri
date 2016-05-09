@@ -26,9 +26,12 @@ gnoma_glib_main_loop_DEFINES += \
 ########################################################################
 gnoma_glib_main_loop_HEADERS += \
 $${GNOMA_SRC}/gnoma/samples/glib/main_loop/main.hpp \
+$${GNOMA_SRC}/gnoma/glib/main.hpp \
 $${GNOMA_SRC}/gnoma/glib/main_loop.hpp \
 $${GNOMA_SRC}/gnoma/glib/main_context.hpp \
 $${GNOMA_SRC}/gnoma/glib/source.hpp \
+$${GNOMA_SRC}/gnoma/glib/source_signals.hpp \
+$${GNOMA_SRC}/gnoma/console/main.hpp \
 $${GNOMA_SRC}/gnoma/console/main_main.hpp \
 $${GNOMA_SRC}/gnoma/console/main_opt.hpp \
 
@@ -37,6 +40,7 @@ $${GNOMA_SRC}/gnoma/samples/glib/main_loop/main.cpp \
 $${GNOMA_SRC}/gnoma/glib/main_loop.cpp \
 $${GNOMA_SRC}/gnoma/glib/main_context.cpp \
 $${GNOMA_SRC}/gnoma/glib/source.cpp \
+$${GNOMA_SRC}/gnoma/glib/source_signals.cpp \
 $${GNOMA_SRC}/gnoma/console/main_main.cpp \
 $${GNOMA_SRC}/gnoma/console/main_opt.cpp \
 
