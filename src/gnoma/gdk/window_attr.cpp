@@ -13,21 +13,19 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: gtk.hpp
+///   File: window_attr.cpp
 ///
 /// Author: $author$
-///   Date: 5/7/2016
+///   Date: 5/11/2016
 ///////////////////////////////////////////////////////////////////////
-#ifndef _GNOMA_GTK_GTK_HPP
-#define _GNOMA_GTK_GTK_HPP
-
-#include "gnoma/gdk/gdk.hpp"
-#include <gtk/gtk.h>
+#include "gnoma/gdk/window_attr.hpp"
 
 namespace gnoma {
-namespace gtk {
+namespace gdk {
 
-} // namespace gtk 
+///////////////////////////////////////////////////////////////////////
+///  Class: window_attrt
+///////////////////////////////////////////////////////////////////////
+
+} // namespace gdk 
 } // namespace gnoma 
-
-#endif // _GNOMA_GTK_GTK_HPP 

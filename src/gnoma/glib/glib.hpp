@@ -26,7 +26,13 @@
 #include <glib-object.h>
 #include <gio/gio.h>
 
+#if !defined(G_POINTER)
+#define G_POINTER(p) ((gpointer)(p))
+#endif // !defined(G_POINTER)
+
 namespace gnoma {
+
+typedef xos::base::stringt<gchar> gstring;
 
 ///////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////

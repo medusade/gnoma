@@ -21,6 +21,11 @@
 #ifndef _GNOMA_SAMPLES_GDK_APP_LAUNCH_MAIN_HPP
 #define _GNOMA_SAMPLES_GDK_APP_LAUNCH_MAIN_HPP
 
+#include "gnoma/gdk/app_launch_context.hpp"
+#include "gnoma/gdk/window.hpp"
+#include "gnoma/gdk/window_attr.hpp"
+#include "gnoma/gdk/display.hpp"
+#include "gnoma/gdk/screen.hpp"
 #include "gnoma/gdk/main.hpp"
 
 namespace gnoma {
@@ -52,34 +57,46 @@ public:
 
         GNOMA_LOG_MESSAGE_DEBUG("gdk_init_check(&gargc, &gargv)...");
         if ((gdk_init_check(&gargc, &gargv))) {
-            GdkDisplay* display = 0;
+            GdkDisplay* display_detached = 0;
+            gnoma::gdk::display display;
 
-            GNOMA_LOG_MESSAGE_DEBUG("...gdk_init_check(&gargc, &gargv)");
+            if ((display_detached = display.open_attached())) {
+                GdkScreen* screen_detached = 0;
+                gnoma::gdk::screen screen;
 
-            GNOMA_LOG_MESSAGE_DEBUG("gdk_display_get_default()...");
-            if ((display = gdk_display_get_default())) {
-                const gchar* display_name = 0;
+                if ((screen_detached = screen.create_attached(display_detached))) {
+                    GdkAppLaunchContext* context_detached = 0;
+                    gnoma::gdk::app_launch_context context;
 
-                GNOMA_LOG_MESSAGE_DEBUG("..." << pointer_to_string(display) << " = gdk_display_get_default()");
+                    if ((context_detached = context.create_attached())) {
+                        GdkWindow* window_detached = 0;
 
-                GNOMA_LOG_MESSAGE_DEBUG("gdk_display_get_name(display = " << pointer_to_string(display) << ")...");
-                if ((display_name = gdk_display_get_name(display))) {
-                    GNOMA_LOG_MESSAGE_DEBUG("...\"" << display_name << "\" = gdk_display_get_name(display = " << pointer_to_string(display) << ")");
+                        if ((window_detached = screen.get_root_window())) {
+                            gnoma::gdk::window_attr window_attr;
+                            gnoma::gdk::window window;
 
-                    GNOMA_LOG_MESSAGE_DEBUG("gdk_display_open(display_name = \"" << display_name << "\")...");
-                    if ((display = gdk_display_open(display_name))) {
-                        GNOMA_LOG_MESSAGE_DEBUG("..." << pointer_to_string(display) << " = gdk_display_open(display_name = \"" << display_name << "\")");
+                            if ((window_detached = window.create_attached
+                                 (window_detached, window_attr, window_attr.mask()))) {
+                                GdkEvent* event = 0;
 
-                        GNOMA_LOG_MESSAGE_DEBUG("...gdk_display_close(display = " << pointer_to_string(display) << ")");
-                        gdk_display_close(display);
-                    } else {
-                        GNOMA_LOG_MESSAGE_DEBUG("...failed 0 = gdk_display_open(display_name = \"" << display_name << "\")");
+                                window.show();
+                                do {
+                                    //GNOMA_LOG_MESSAGE_DEBUG("gdk_event_get()...");
+                                    if ((event = gdk_event_get())) {
+                                        GNOMA_LOG_MESSAGE_DEBUG("...gdk_event_get()");
+                                        gdk_event_free(event);
+                                    } else {
+                                        //GNOMA_LOG_MESSAGE_DEBUG("...failed on gdk_event_get()");
+                                    }
+                                } while (true);
+                                sleep(5);
+                                window.hide();
+                                window.destroy();
+                            }
+                        }
                     }
-                } else {
-                    GNOMA_LOG_MESSAGE_DEBUG("...failed 0 = gdk_display_get_name(display = " << pointer_to_string(display) << ")");
                 }
-            } else {
-                GNOMA_LOG_MESSAGE_DEBUG("...failed 0 = gdk_display_get_default()");
+                display.close();
             }
         } else {
             GNOMA_LOG_MESSAGE_DEBUG("...failed on gdk_init_check(&gargc, &gargv)");

@@ -13,21 +13,19 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: gtk.hpp
+///   File: application_window_main.cpp
 ///
 /// Author: $author$
-///   Date: 5/7/2016
+///   Date: 5/15/2016
 ///////////////////////////////////////////////////////////////////////
-#ifndef _GNOMA_GTK_GTK_HPP
-#define _GNOMA_GTK_GTK_HPP
-
-#include "gnoma/gdk/gdk.hpp"
-#include <gtk/gtk.h>
+#include "gnoma/gtk/application_window_main.hpp"
 
 namespace gnoma {
 namespace gtk {
 
+///////////////////////////////////////////////////////////////////////
+///  Class: application_window_maint
+///////////////////////////////////////////////////////////////////////
+
 } // namespace gtk 
 } // namespace gnoma 
-
-#endif // _GNOMA_GTK_GTK_HPP 
