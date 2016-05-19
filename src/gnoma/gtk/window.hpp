@@ -13,79 +13,66 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: application_window.hpp
+///   File: window.hpp
 ///
 /// Author: $author$
-///   Date: 5/14/2016
+///   Date: 5/16/2016
 ///////////////////////////////////////////////////////////////////////
-#ifndef _GNOMA_GTK_APPLICATION_APPLICATION_WINDOW_HPP
-#define _GNOMA_GTK_APPLICATION_APPLICATION_WINDOW_HPP
+#ifndef _GNOMA_GTK_WINDOW_HPP
+#define _GNOMA_GTK_WINDOW_HPP
 
-#include "gnoma/gtk/window.hpp"
+#include "gnoma/gtk/widget.hpp"
 
 namespace gnoma {
 namespace gtk {
 
-typedef window_implements application_window_implements;
-typedef window application_window_extends;
+typedef widget_implements window_implements;
+typedef widget window_extends;
 ///////////////////////////////////////////////////////////////////////
-///  Class: application_windowt
+///  Class: windowt
 ///////////////////////////////////////////////////////////////////////
 template
-<class TImplements = application_window_implements,
- class TExtends = application_window_extends>
-
-class _EXPORT_CLASS application_windowt
-: virtual public TImplements, public TExtends {
+<class TImplements = window_implements, class TExtends = window_extends>
+class _EXPORT_CLASS windowt: virtual public TImplements, public TExtends {
 public:
     typedef TImplements Implements;
     typedef TExtends Extends;
     typedef typename Extends::attached_t attached_t;
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    application_windowt
+    windowt
     (attached_t detached = 0, bool is_created = false)
     : Extends(detached, is_created) {
     }
-    virtual ~application_windowt() {
+    virtual ~windowt() {
     }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    virtual bool before_create(GtkApplication* application) {
-        return true;
-    }
-    virtual bool after_create(GtkApplication* application) {
-        return true;
-    }
-    ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////
-    virtual attached_t create_attached(GtkApplication* application) {
-        attached_t detached = 0;
-        if ((this->destroyed())) {
-            if ((detached = create_detached(application))) {
-                this->attach(detached);
-            }
+    virtual bool set_title(const gchar* title) {
+        GtkWidget* detached = this->attached_to();
+        if ((detached)) {
+            gtk_window_set_title(GTK_WINDOW(detached), title);
+            return true;
         }
-        return detached;
+        return false;
     }
-    virtual attached_t create_detached(GtkApplication* application) const {
-        attached_t detached = 0;
-        if ((application)) {
-            GNOMA_LOG_MESSAGE_DEBUG("gtk_application_window_new(application = " << gpointer_to_string(application) << ")...");
-            if ((detached = gtk_application_window_new(application))) {
-                GNOMA_LOG_MESSAGE_DEBUG("..." << gpointer_to_string(detached) << " = gtk_application_window_new(application = " << gpointer_to_string(application) << ")");
-            } else {
-                GNOMA_LOG_ERROR("failed on gtk_application_window_new(application = " << gpointer_to_string(application) << ")");
-            }
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual bool set_default_size(gint width, gint height) {
+        GtkWidget* detached = this->attached_to();
+        if ((detached)) {
+            gtk_window_set_default_size
+            (GTK_WINDOW(detached), width, height);
+            return true;
         }
-        return detached;
+        return false;
     }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 };
-typedef application_windowt<> application_window;
+typedef windowt<> window;
 
 } // namespace gtk 
 } // namespace gnoma 
 
-#endif // _GNOMA_GTK_APPLICATION_APPLICATION_WINDOW_HPP 
+#endif // _GNOMA_GTK_WINDOW_HPP 

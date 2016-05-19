@@ -13,79 +13,91 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: application_window.hpp
+///   File: main.hpp
 ///
 /// Author: $author$
-///   Date: 5/14/2016
+///   Date: 5/16/2016
 ///////////////////////////////////////////////////////////////////////
-#ifndef _GNOMA_GTK_APPLICATION_APPLICATION_WINDOW_HPP
-#define _GNOMA_GTK_APPLICATION_APPLICATION_WINDOW_HPP
+#ifndef _GNOMA_APP_GTK_GNUTEXT_MAIN_HPP
+#define _GNOMA_APP_GTK_GNUTEXT_MAIN_HPP
 
-#include "gnoma/gtk/window.hpp"
+#include "gnoma/app/gtk/gnutext/window.hpp"
+#include "gnoma/gtk/application_window_main.hpp"
+#include "gnoma/gtk/widget.hpp"
 
 namespace gnoma {
+namespace app {
 namespace gtk {
+namespace gnutext {
 
-typedef window_implements application_window_implements;
-typedef window application_window_extends;
+typedef gnoma::gtk::application_window_main_implements main_implements;
+typedef gnoma::gtk::application_window_main main_extends;
 ///////////////////////////////////////////////////////////////////////
-///  Class: application_windowt
+///  Class: maint
 ///////////////////////////////////////////////////////////////////////
 template
-<class TImplements = application_window_implements,
- class TExtends = application_window_extends>
-
-class _EXPORT_CLASS application_windowt
-: virtual public TImplements, public TExtends {
+<class TImplements = main_implements, class TExtends = main_extends>
+class _EXPORT_CLASS maint: virtual public TImplements,public TExtends {
 public:
     typedef TImplements Implements;
     typedef TExtends Extends;
-    typedef typename Extends::attached_t attached_t;
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    application_windowt
-    (attached_t detached = 0, bool is_created = false)
-    : Extends(detached, is_created) {
+    maint() {
     }
-    virtual ~application_windowt() {
+    virtual ~maint() {
     }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    virtual bool before_create(GtkApplication* application) {
-        return true;
-    }
-    virtual bool after_create(GtkApplication* application) {
-        return true;
-    }
-    ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////
-    virtual attached_t create_attached(GtkApplication* application) {
-        attached_t detached = 0;
-        if ((this->destroyed())) {
-            if ((detached = create_detached(application))) {
-                this->attach(detached);
-            }
-        }
-        return detached;
-    }
-    virtual attached_t create_detached(GtkApplication* application) const {
-        attached_t detached = 0;
+    virtual bool before_create_application_window(GtkApplication* application) {
         if ((application)) {
-            GNOMA_LOG_MESSAGE_DEBUG("gtk_application_window_new(application = " << gpointer_to_string(application) << ")...");
-            if ((detached = gtk_application_window_new(application))) {
-                GNOMA_LOG_MESSAGE_DEBUG("..." << gpointer_to_string(detached) << " = gtk_application_window_new(application = " << gpointer_to_string(application) << ")");
-            } else {
-                GNOMA_LOG_ERROR("failed on gtk_application_window_new(application = " << gpointer_to_string(application) << ")");
+            if ((window_.before_create(application))) {
+                return true;
             }
         }
-        return detached;
+        return false;
+    }
+    virtual bool after_create_application_window
+    (GtkWidget* application_window, GtkApplication* application) {
+        if ((application) && (application_window)
+            && (application_window == (window_.attached_to()))) {
+            if ((window_.after_create(application))) {
+                return true;
+            }
+        }
+        return false;
     }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
+    virtual GtkWidget* create_application_window(GtkApplication* application) {
+        if ((application)) {
+            GtkWidget* application_window = 0;
+            if ((application_window = window_.create_attached(application))) {
+                return application_window;
+            }
+        }
+        return 0;
+    }
+    virtual bool destroy_application_window
+    (GtkWidget* application_window, GtkApplication* application) {
+        if ((application) && (application_window)
+            && (application_window == (window_.attached_to()))) {
+            if ((window_.destroy())) {
+                return true;
+            }
+        }
+        return false;
+    }
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+protected:
+    window window_;
 };
-typedef application_windowt<> application_window;
+typedef maint<> main;
 
+} // namespace gnutext 
 } // namespace gtk 
+} // namespace app 
 } // namespace gnoma 
 
-#endif // _GNOMA_GTK_APPLICATION_APPLICATION_WINDOW_HPP 
+#endif // _GNOMA_APP_GTK_GNUTEXT_MAIN_HPP 

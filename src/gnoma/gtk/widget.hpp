@@ -55,6 +55,7 @@ public:
     }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
+    using Extends::create_attached;
     virtual attached_t create_attached(GType type) {
         attached_t detached = 0;
         if ((this->destroyed())) {
@@ -94,6 +95,19 @@ public:
             GNOMA_LOG_MESSAGE_DEBUG("...gtk_widget_show_all(" << gpointer_to_string(detached) << ")");
             gtk_widget_show_all(detached);
             return true;
+        }
+        return false;
+    }
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual bool container_add(attached_t widget) {
+        attached_t detached = 0;
+        if ((detached = this->attached_to())) {
+            if ((widget)) {
+                GNOMA_LOG_MESSAGE_DEBUG("...gtk_container_add(GTK_CONTAINER(detached = " << gpointer_to_string(detached) << "), widget = " << gpointer_to_string(widget) << ")")
+                gtk_container_add(GTK_CONTAINER(detached), widget);
+                return true;
+            }
         }
         return false;
     }

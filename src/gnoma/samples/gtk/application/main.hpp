@@ -25,6 +25,12 @@
 #include "gnoma/gtk/application_main.hpp"
 #include "gnoma/gtk/application_window.hpp"
 
+#define GNOMA_SAMPLES_GTK_APPLICATION_TITLE "gnoma::samples::gtk::application"
+#define GNOMA_SAMPLES_GTK_APPLICATION_WIDTH 500
+#define GNOMA_SAMPLES_GTK_APPLICATION_HEIGHT 300
+#define GNOMA_SAMPLES_GTK_APPLICATION_X 0
+#define GNOMA_SAMPLES_GTK_APPLICATION_Y 9
+
 namespace gnoma {
 namespace samples {
 namespace gtk {
@@ -42,12 +48,29 @@ public:
     typedef TExtends Extends;
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    maint() {
+    maint()
+    : title_(GNOMA_SAMPLES_GTK_APPLICATION_TITLE),
+      width_(GNOMA_SAMPLES_GTK_APPLICATION_WIDTH),
+      height_(GNOMA_SAMPLES_GTK_APPLICATION_HEIGHT),
+      x_(GNOMA_SAMPLES_GTK_APPLICATION_X),
+      y_(GNOMA_SAMPLES_GTK_APPLICATION_Y) {
     }
     virtual ~maint() {
     }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
+    virtual bool after_create_application_window
+    (GtkWidget* application_window, GtkApplication* application) {
+        gnoma::gtk::application_window w(application_window);
+        w.set_title(title_.chars());
+        w.set_default_size(width_, height_);
+        return true;
+    }
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+protected:
+    gstring title_;
+    gint width_, height_, x_, y_;
 };
 typedef maint<> main;
 

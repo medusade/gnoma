@@ -13,34 +13,24 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: gtk.hpp
+///   File: main.cpp
 ///
 /// Author: $author$
-///   Date: 5/7/2016
+///   Date: 5/16/2016
 ///////////////////////////////////////////////////////////////////////
-#ifndef _GNOMA_GTK_GTK_HPP
-#define _GNOMA_GTK_GTK_HPP
-
-#include "gnoma/gdk/gdk.hpp"
-#include <gtk/gtk.h>
+#include "gnoma/app/gtk/gnutext/main.hpp"
 
 namespace gnoma {
+namespace app {
 namespace gtk {
+namespace gnutext {
 
 ///////////////////////////////////////////////////////////////////////
+///  Class: maint
 ///////////////////////////////////////////////////////////////////////
-class _EXPORT_CLASS GtkIconSize_to_string: public string {
-public:
-    ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////
-    GtkIconSize_to_string(GtkIconSize size) {
-        this->append_signed(size);
-    }
-    ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////
-};
+static main the_main;
 
-} // namespace gtk
+} // namespace gnutext 
+} // namespace gtk 
+} // namespace app 
 } // namespace gnoma 
-
-#endif // _GNOMA_GTK_GTK_HPP 
