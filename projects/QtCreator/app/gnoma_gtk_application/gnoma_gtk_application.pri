@@ -34,6 +34,7 @@ $${GNOMA_SRC}/gnoma/gtk/application_main.hpp \
 $${GNOMA_SRC}/gnoma/gtk/application.hpp \
 $${GNOMA_SRC}/gnoma/gtk/application_signals.hpp \
 $${GNOMA_SRC}/gnoma/gtk/main.hpp \
+$${GNOMA_SRC}/gnoma/gtk/window.hpp \
 $${GNOMA_SRC}/gnoma/gtk/widget.hpp \
 $${GNOMA_SRC}/gnoma/gtk/widget_signals.hpp \
 $${GNOMA_SRC}/gnoma/gtk/gtk.hpp \
@@ -52,6 +53,7 @@ $${GNOMA_SRC}/gnoma/gtk/application_window_main.cpp \
 $${GNOMA_SRC}/gnoma/gtk/application_window.cpp \
 $${GNOMA_SRC}/gnoma/gtk/application.cpp \
 $${GNOMA_SRC}/gnoma/gtk/application_signals.hpp \
+$${GNOMA_SRC}/gnoma/gtk/window.cpp \
 $${GNOMA_SRC}/gnoma/gtk/widget.cpp \
 $${GNOMA_SRC}/gnoma/gtk/widget_signals.cpp \
 $${GNOMA_SRC}/gnoma/console/main_main.cpp \

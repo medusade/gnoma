@@ -26,8 +26,29 @@ GNOMA_OS = linux
 NADIR_BLD = ../$${NADIR_PKG}/build/$${GNOMA_OS}/QtCreator/$${GNOMA_CONFIG}
 NADIR_LIB = $${NADIR_BLD}/lib
 
-########################################################################
+nadir_INCLUDEPATH += \
 
+nadir_DEFINES += \
+
+nadir_LIBS += \
+-L$${NADIR_LIB}/libxosnadir \
+-lxosnadir \
+
+########################################################################
+# lamna
+LAMNA_BLD = ../$${LAMNA_PKG}/build/$${GNOMA_OS}/QtCreator/$${GNOMA_CONFIG}
+LAMNA_LIB = $${LAMNA_BLD}/lib
+
+lamna_INCLUDEPATH += \
+
+lamna_DEFINES += \
+
+lamna_LIBS += \
+-L$${LAMNA_LIB}/liblamna \
+-llamna \
+
+########################################################################
+# gnoma
 gnoma_INCLUDEPATH += \
 $${gtk_INCLUDEPATH} \
 
@@ -38,7 +59,6 @@ gnoma_HEADERS += \
 gnoma_SOURCES += \
 
 gnoma_LIBS += \
--L$${NADIR_LIB}/libxosnadir \
--lxosnadir \
+$${nadir_LIBS} \
 $${gtk_LIBS} \
 

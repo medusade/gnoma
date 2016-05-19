@@ -13,60 +13,37 @@
 # or otherwise) arising in any way out of the use of this software,
 # even if advised of the possibility of such damage.
 #
-#   File: gnoma.pri
+#   File: gnutext.pro
 #
 # Author: $author$
-#   Date: 5/7/2016
+#   Date: 5/16/2016
 ########################################################################
-GNOMA_PKG = ../../../../..
-GNOMA_BLD = ../..
-GNOMA_PRJ = $${GNOMA_PKG}
-GNOMA_BIN = $${GNOMA_BLD}/bin
-GNOMA_LIB = $${GNOMA_BLD}/lib
-GNOMA_SRC = $${GNOMA_PKG}/src
+include(../../../../../build/QtCreator/gtk.pri)
+include(../../gtk.pri)
+include(../../../../QtCreator/gnoma.pri)
+include(../../gnoma.pri)
+include(../../../../QtCreator/app/gnutext/gnutext.pri)
 
-CONFIG(debug, debug|release) {
-GNOMA_CONFIG = Debug
-} else {
-GNOMA_CONFIG = Release
-}
+TARGET = gnutext
 
-########################################################################
-# nadir
-NADIR_PKG = $${GNOMA_PKG}/../nadir
-NADIR_PRJ = $${NADIR_PKG}
-NADIR_SRC = $${NADIR_PKG}/src
+INCLUDEPATH += \
+$${gnutext_INCLUDEPATH} \
 
-nadir_INCLUDEPATH += \
-$${NADIR_SRC} \
-
-nadir_DEFINES += \
-
-nadir_LIBS += \
+DEFINES += \
+$${gnutext_DEFINES} \
 
 ########################################################################
-# lamna
-LAMNA_PKG = $${GNOMA_PKG}/../lamna
-LAMNA_PRJ = $${LAMNA_PKG}
-LAMNA_SRC = $${LAMNA_PKG}/src
+HEADERS += \
+$${gnutext_HEADERS} \
 
-lamna_INCLUDEPATH += \
-$${LAMNA_SRC} \
-
-lamna_DEFINES += \
-
-lamna_LIBS += \
+SOURCES += \
+$${gnutext_SOURCES} \
 
 ########################################################################
-# gnoma
-gnoma_INCLUDEPATH += \
-$${GNOMA_SRC} \
-$${nadir_INCLUDEPATH} \
 
-gnoma_DEFINES += \
-$${nadir_DEFINES} \
+LIBS += \
+$${gnutext_LIBS} \
+$${gnoma_LIBS} \
 
-gnoma_LIBS += \
--L$${GNOMA_LIB}/libgnoma \
--lgnoma \
+
 
