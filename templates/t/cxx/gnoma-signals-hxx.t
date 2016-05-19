@@ -19,11 +19,6 @@
 %#   Date: 5/11/2016
 %########################################################################
 %with(%
-%extension,%(%else-then(%extension%,%(hpp)%)%)%,%
-%Extension,%(%else-then(%Extension%,%(%extension%)%)%)%,%
-%EXTENSION,%(%else-then(%EXTENSION%,%(%toupper(%Extension%)%)%)%)%,%
-%extension,%(%else-then(%_Extension%,%(%tolower(%Extension%)%)%)%)%,%
-%hpp,%(%equal(hpp,%Extension%)%%equal(hxx,%Extension%)%%equal(h,%Extension%)%)%,%
 %framework,%(%else-then(%framework%,%(Gnoma)%)%)%,%
 %Framework,%(%else-then(%Framework%,%(%framework%)%)%)%,%
 %FRAMEWORK,%(%else-then(%FRAMEWORK%,%(%toupper(%Framework%)%)%)%)%,%
@@ -36,6 +31,15 @@
 %Class,%(%else-then(%Class%,%(%class%)%)%)%,%
 %CLASS,%(%else-then(%CLASS%,%(%toupper(%Class%)%)%)%)%,%
 %class,%(%else-then(%_Class%,%(%tolower(%Class%)%)%)%)%,%
+%file,%(%else-then(%file%,%(%Class%_signals)%)%)%,%
+%File,%(%else-then(%File%,%(%file%)%)%)%,%
+%FILE,%(%else-then(%FILE%,%(%toupper(%File%)%)%)%)%,%
+%file,%(%else-then(%_File%,%(%tolower(%File%)%)%)%)%,%
+%extension,%(%else-then(%extension%,%(hpp)%)%)%,%
+%Extension,%(%else-then(%Extension%,%(%extension%)%)%)%,%
+%EXTENSION,%(%else-then(%EXTENSION%,%(%toupper(%Extension%)%)%)%)%,%
+%extension,%(%else-then(%_Extension%,%(%tolower(%Extension%)%)%)%)%,%
+%hpp,%(%equal(hpp,%Extension%)%%equal(hxx,%Extension%)%%equal(h,%Extension%)%)%,%
 %attached,%(%else-then(%attached%,%(Attached)%)%)%,%
 %Attached,%(%else-then(%Attached%,%(%attached%)%)%)%,%
 %ATTACHED,%(%else-then(%ATTACHED%,%(%toupper(%Attached%)%)%)%)%,%
@@ -76,7 +80,7 @@
 /// or otherwise) arising in any way out of the use of this software,
 /// even if advised of the possibility of such damage.
 ///
-///   File: %class%_signals.%extension%
+///   File: %File%.%Extension%
 ///
 /// Author: $author$
 ///   Date: %date()%
