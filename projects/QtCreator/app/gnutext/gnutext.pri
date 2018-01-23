@@ -33,6 +33,7 @@ $${GNOMA_SRC}/gnoma/app/gtk/gnutext/bars.hpp \
 $${GNOMA_SRC}/gnoma/app/gtk/gnutext/panels.hpp \
 $${GNOMA_SRC}/gnoma/gtk/application_window_main.hpp \
 $${GNOMA_SRC}/gnoma/gtk/application_window.hpp \
+$${GNOMA_SRC}/gnoma/gtk/scrolled_window.hpp \
 $${GNOMA_SRC}/gnoma/gtk/window.hpp \
 $${GNOMA_SRC}/gnoma/gtk/paned.hpp \
 $${GNOMA_SRC}/gnoma/gtk/box.hpp \
@@ -42,6 +43,10 @@ $${GNOMA_SRC}/gnoma/gtk/toolbar_activate_signals.hpp \
 $${GNOMA_SRC}/gnoma/gtk/tool_button.hpp \
 $${GNOMA_SRC}/gnoma/gtk/tool_item.hpp \
 $${GNOMA_SRC}/gnoma/gtk/tool_separator.hpp \
+$${GNOMA_SRC}/gnoma/gtk/search_bar.hpp \
+$${GNOMA_SRC}/gnoma/gtk/search_entry.hpp \
+$${GNOMA_SRC}/gnoma/gtk/search_entry_signals.hpp \
+$${GNOMA_SRC}/gnoma/gtk/places_sidebar.hpp \
 $${GNOMA_SRC}/gnoma/gtk/image.hpp \
 $${GNOMA_SRC}/gnoma/gtk/widget.hpp \
 $${GNOMA_SRC}/gnoma/gtk/gtk.hpp \
@@ -57,6 +62,7 @@ $${GNOMA_SRC}/gnoma/app/gtk/gnutext/main.cpp \
 $${GNOMA_SRC}/gnoma/app/gtk/gnutext/window.cpp \
 $${GNOMA_SRC}/gnoma/app/gtk/gnutext/bars.cpp \
 $${GNOMA_SRC}/gnoma/app/gtk/gnutext/panels.cpp \
+$${GNOMA_SRC}/gnoma/gtk/scrolled_window.cpp \
 $${GNOMA_SRC}/gnoma/gtk/paned.cpp \
 $${GNOMA_SRC}/gnoma/gtk/box.cpp \
 $${GNOMA_SRC}/gnoma/gtk/toolbar.cpp \
@@ -65,6 +71,10 @@ $${GNOMA_SRC}/gnoma/gtk/toolbar_activate_signals.cpp \
 $${GNOMA_SRC}/gnoma/gtk/tool_button.cpp \
 $${GNOMA_SRC}/gnoma/gtk/tool_item.cpp \
 $${GNOMA_SRC}/gnoma/gtk/tool_separator.cpp \
+$${GNOMA_SRC}/gnoma/gtk/search_bar.cpp \
+$${GNOMA_SRC}/gnoma/gtk/search_entry.cpp \
+$${GNOMA_SRC}/gnoma/gtk/search_entry_signals.cpp \
+$${GNOMA_SRC}/gnoma/gtk/places_sidebar.cpp \
 $${GNOMA_SRC}/gnoma/gtk/image.cpp \
 $${GNOMA_SRC}/gnoma/gdk/pixbuf.cpp \
 $${GNOMA_SRC}/gnoma/gdk/gdk.cpp \
