@@ -62,6 +62,19 @@ public:
         }
         return false;
     }
+    virtual bool pack_end
+    (GtkWidget* child, gboolean expand = FALSE,
+     gboolean fill = FALSE, guint padding = 0) {
+        widget_attached_t detached = 0;
+        if ((detached = this->attached_to())) {
+            if ((child)) {
+                gtk_box_pack_end
+                (GTK_BOX(detached), child, expand, fill, padding);
+                return true;
+            }
+        }
+        return false;
+    }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
     virtual bool set_spacing(gint spacing) {

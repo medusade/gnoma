@@ -28,6 +28,9 @@
 #include "gnoma/gtk/tool_button.hpp"
 #include "gnoma/gtk/tool_item.hpp"
 #include "gnoma/gtk/tool_separator.hpp"
+#include "gnoma/gtk/search_bar.hpp"
+#include "gnoma/gtk/search_entry.hpp"
+#include "gnoma/gtk/places_sidebar.hpp"
 #include "gnoma/gtk/separator.hpp"
 
 #define GNOMA_APP_GTK_GNUTEXT_WINDOW_WIDTH 750
@@ -41,8 +44,10 @@ namespace gnutext {
 typedef gnoma::gtk::toolbar toolbar;
 typedef gnoma::gtk::tool_button tool_button;
 typedef gnoma::gtk::tool_separator tool_separator;
+typedef gnoma::gtk::search_entry search_entry;
 typedef gnoma::gtk::horizontal::separator horizontal_separator;
 typedef gnoma::gtk::vertical::separator vertical_separator;
+typedef gnoma::gtk::places_sidebar places_sidebar;
 
 typedef gnoma::gtk::application_window_implements window_implements;
 typedef gnoma::gtk::application_window window_extends;
@@ -131,8 +136,34 @@ public:
                         toolbar_.insert(GTK_TOOL_ITEM(tool_item_detached));
                     }
                     toolbar_panels_.pack_start(toolbar_detached);
+
+                    GtkWidget* search_entry_detached = 0;
+                    if ((search_entry_detached = search_entry_.create_attached())) {
+                        search_entry_.connect_signal_activate();
+                        search_entry_.connect_signal_search_changed();
+                        toolbar_panels_.pack_end(search_entry_detached);
+                    }
                 }
                 bars_.pack_start(toolbar_panels_detached);
+
+                GtkWidget* separator_detached = 0;
+                if ((separator_detached = horizontal_separator_.create_detached())) {
+                    bars_.pack_start(separator_detached);
+                }
+
+                GtkWidget* view_panels_detached = 0;
+                if ((view_panels_detached = view_panels_.create_attached())) {
+                    GtkWidget* sidebar_detached = 0;
+
+                    if ((sidebar_detached = sidebar_.create_attached())) {
+                        gint width = -1;
+                        if ((sidebar_.get_min_width(width))) {
+                            sidebar_.set_size_request(width, height_ / 10);
+                        }
+                        view_panels_.pack_start(sidebar_detached);
+                    }
+                    bars_.pack_start(view_panels_detached, TRUE, TRUE);
+                }
             }
             this->container_add(bars_detached);
         }
@@ -146,9 +177,11 @@ protected:
     toolbar toolbar_;
     tool_button tool_button_;
     tool_separator tool_separator_;
+    search_entry search_entry_;
+    places_sidebar sidebar_;
     horizontal_separator horizontal_separator_;
     vertical_separator vertical_separator_;
-    panels toolbar_panels_, editbar_panels_, statusbar_panels_;
+    panels toolbar_panels_, view_panels_, editbar_panels_, statusbar_panels_;
 };
 typedef windowt<> window;
 

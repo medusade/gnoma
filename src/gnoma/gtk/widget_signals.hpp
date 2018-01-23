@@ -27,6 +27,7 @@ namespace gnoma {
 namespace gtk {
 
 typedef GCallback widget_signal_callback_t;
+typedef gint widget_signal_event_mask_t;
 typedef implement_base widget_signals_implements;
 ///////////////////////////////////////////////////////////////////////
 ///  Class: widget_signalst
@@ -53,11 +54,11 @@ public:
         if ((widget_detached) && (widget_signals)) {
             widget_signals->on_widget_signal_destroy(widget_detached);
         } else {
-        if ((widget_detached)) {
-            GNOMA_LOG_ERROR("unexpected widget_signals == 0");
-        } else {
-            GNOMA_LOG_ERROR("unexpected widget_detached == 0");
-        }
+            if ((widget_detached)) {
+                GNOMA_LOG_ERROR("unexpected widget_signals == 0");
+            } else {
+                GNOMA_LOG_ERROR("unexpected widget_detached == 0");
+            }
         }
         GNOMA_LOG_MESSAGE_DEBUG("...widget_signal_destroy_callback(widget_detached = " << pointer_to_string(widget_detached) << ")");
     }
@@ -73,6 +74,7 @@ public:
     ///////////////////////////////////////////////////////////////////////
 };
 typedef widget_signalst<> widget_signals;
+typedef widget_signals* widget_signal_data_t;
 
 } // namespace gtk
 } // namespace gnoma

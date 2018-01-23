@@ -38,12 +38,15 @@ typedef widget_created widget_extends;
 ///  Class: widgett
 ///////////////////////////////////////////////////////////////////////
 template
-<class TImplements = widget_implements, class TExtends = widget_extends>
+<class TSignalsImplements = widget_signals,
+ class TImplements = widget_implements, class TExtends = widget_extends>
 class _EXPORT_CLASS widgett
-: virtual public TImplements, public TExtends {
+: virtual public TSignalsImplements,
+  virtual public TImplements, public TExtends {
 public:
     typedef TImplements Implements;
     typedef TExtends Extends;
+    typedef TSignalsImplements signals_implements_t;
     typedef typename Extends::attached_t attached_t;
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
@@ -89,6 +92,50 @@ public:
     }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
+    virtual bool set_min_width(gint width) {
+        if ((set_size_request(width, -1))) {
+            return true;
+        }
+        return false;
+    }
+    virtual bool get_min_width(gint& width) {
+        if ((get_size_request(&width, NULL))) {
+            return true;
+        }
+        return false;
+    }
+    virtual bool set_min_height(gint height) {
+        if ((set_size_request(-1, height))) {
+            return true;
+        }
+        return false;
+    }
+    virtual bool get_min_height(gint& height) {
+        if ((get_size_request(NULL, &height))) {
+            return true;
+        }
+        return false;
+    }
+    virtual bool set_size_request(gint width, gint height) {
+        attached_t detached = this->attached_to();
+        if ((detached)) {
+            GNOMA_LOG_MESSAGE_DEBUG("...gtk_widget_set_size_request(" << gpointer_to_string(detached) << ", width = " << width << ", height = " << height << ")");
+            gtk_widget_set_size_request(detached, width, height);
+            return true;
+        }
+        return false;
+    }
+    virtual bool get_size_request(gint *width, gint *height) {
+        attached_t detached = this->attached_to();
+        if ((detached)) {
+            GNOMA_LOG_MESSAGE_DEBUG("...gtk_widget_get_size_request(" << gpointer_to_string(detached) << ", width = " << gpointer_to_string(width) << ", height = " << gpointer_to_string(height) << ")");
+            gtk_widget_get_size_request(detached, width, height);
+            return true;
+        }
+        return false;
+    }
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
     virtual bool show_all() {
         attached_t detached = this->attached_to();
         if ((detached)) {
@@ -107,6 +154,99 @@ public:
                 GNOMA_LOG_MESSAGE_DEBUG("...gtk_container_add(GTK_CONTAINER(detached = " << gpointer_to_string(detached) << "), widget = " << gpointer_to_string(widget) << ")")
                 gtk_container_add(GTK_CONTAINER(detached), widget);
                 return true;
+            }
+        }
+        return false;
+    }
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual bool connect_signal
+    (const char* signal_name,
+     widget_signal_callback_t signal_callback,
+     widget_signal_data_t signal_data,
+     widget_signal_event_mask_t signal_event_mask = 0) {
+        if ((signal_name) && (signal_callback)) {
+            widget_attached_t detached = 0;
+            if ((detached = this->attached_to())) {
+                gulong handler_id = 0;
+                GNOMA_LOG_MESSAGE_DEBUG("g_signal_connect(..., signal_name = \"" << signal_name << "\"...)...");
+                if ((handler_id = g_signal_connect
+                     (detached, signal_name,
+                      G_CALLBACK(signal_callback), G_POINTER(signal_data)))) {
+                    GNOMA_LOG_MESSAGE_DEBUG("..." << handler_id << " = g_signal_connect(..., signal_name = \"" << signal_name << "\"...)");
+                    if ((signal_event_mask)) {
+                        GNOMA_LOG_MESSAGE_DEBUG("...g_signal_connect(..., signal_name = \"" << signal_name << "\"...)");
+                        gtk_widget_add_events(detached, signal_event_mask);
+                    }
+                    return true;
+                } else {
+                    GNOMA_LOG_ERROR("...failed on g_signal_connect(..., signal_name = \"" << signal_name << "\"...)");
+                }
+            }
+        }
+        return false;
+    }
+    virtual bool disconnect_signal
+    (widget_signal_callback_t signal_callback,
+     widget_signal_data_t signal_data) {
+        if ((signal_callback)) {
+            widget_attached_t detached = 0;
+            if ((detached = this->attached_to())) {
+                guint handlers = 0;
+                GNOMA_LOG_MESSAGE_DEBUG("g_signal_handlers_disconnect_by_func(...)...");
+                if ((handlers = g_signal_handlers_disconnect_by_func
+                     (detached, G_POINTER(signal_callback), G_POINTER(signal_data)))) {
+                    GNOMA_LOG_MESSAGE_DEBUG("..." << handlers << " = g_signal_handlers_disconnect_by_func(...)");
+                    return true;
+                } else {
+                    GNOMA_LOG_ERROR("failed on g_signal_handlers_disconnect_by_func(...)");
+                }
+            }
+        }
+        return false;
+    }
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual bool connect_signal
+    (gpointer detached, const char* signal_name,
+     widget_signal_callback_t signal_callback,
+     widget_signal_data_t signal_data,
+     widget_signal_event_mask_t signal_event_mask = 0) const {
+        if ((signal_name) && (signal_callback)) {
+            if ((detached)) {
+                gulong handler_id = 0;
+                GNOMA_LOG_MESSAGE_DEBUG("g_signal_connect(..., signal_name = \"" << signal_name << "\"...)...");
+                if ((handler_id = g_signal_connect
+                     (detached, signal_name,
+                      G_CALLBACK(signal_callback), G_POINTER(signal_data)))) {
+                    GNOMA_LOG_MESSAGE_DEBUG("..." << handler_id << " = g_signal_connect(..., signal_name = \"" << signal_name << "\"...)");
+                    if ((signal_event_mask)) {
+                        GNOMA_LOG_MESSAGE_DEBUG("...gtk_widget_add_events(..., signal_event_mask = " << signal_event_mask << ")");
+                        gtk_widget_add_events(GTK_WIDGET(detached), signal_event_mask);
+                    }
+                    return true;
+                } else {
+                    GNOMA_LOG_ERROR("...failed on g_signal_connect(..., signal_name = \"" << signal_name << "\"...)");
+                }
+            }
+        }
+        return false;
+    }
+    virtual bool disconnect_signal
+    (gpointer detached,
+     widget_signal_callback_t signal_callback,
+     widget_signal_data_t signal_data) const {
+        if ((signal_callback)) {
+            if ((detached)) {
+                guint handlers = 0;
+                GNOMA_LOG_MESSAGE_DEBUG("g_signal_handlers_disconnect_by_func(...)...");
+                if ((handlers = g_signal_handlers_disconnect_by_func
+                     (detached, G_POINTER(signal_callback), G_POINTER(signal_data)))) {
+                    GNOMA_LOG_MESSAGE_DEBUG("..." << handlers << " = g_signal_handlers_disconnect_by_func(...)");
+                    return true;
+                } else {
+                    GNOMA_LOG_ERROR("...failed on g_signal_handlers_disconnect_by_func(...)");
+                }
             }
         }
         return false;
