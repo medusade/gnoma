@@ -27,8 +27,12 @@ GNOMA_SRC = $${GNOMA_PKG}/src
 
 CONFIG(debug, debug|release) {
 GNOMA_CONFIG = Debug
+BUILD_CONFIG = Debug
+gnoma_DEFINES += DEBUG_BUILD
 } else {
 GNOMA_CONFIG = Release
+BUILD_CONFIG = Release
+gnoma_DEFINES += RELEASE_BUILD
 }
 
 ########################################################################
@@ -41,6 +45,7 @@ nadir_INCLUDEPATH += \
 $${NADIR_SRC} \
 
 nadir_DEFINES += \
+NO_USE_XOS_LOGGER_INTERFACE \
 
 nadir_LIBS += \
 

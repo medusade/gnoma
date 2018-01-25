@@ -30,12 +30,15 @@ INCLUDEPATH += \
 $${gnoma_INCLUDEPATH} \
 
 DEFINES += \
+$${gnoma_DEFINES} \
 
+########################################################################
 HEADERS += \
 $${gnoma_gtk_application_HEADERS} \
 
 SOURCES += \
 $${gnoma_gtk_application_SOURCES} \
 
+########################################################################
 LIBS += \
 $${gnoma_LIBS} \

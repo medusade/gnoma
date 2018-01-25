@@ -30,12 +30,15 @@ INCLUDEPATH += \
 $${gnoma_INCLUDEPATH} \
 
 DEFINES += \
+$${gnoma_DEFINES} \
 
+########################################################################
 HEADERS += \
 $${gnoma_gdk_app_launch_HEADERS} \
 
 SOURCES += \
 $${gnoma_gdk_app_launch_SOURCES} \
 
+########################################################################
 LIBS += \
 $${gnoma_LIBS} \
