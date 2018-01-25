@@ -52,6 +52,11 @@ public:
     : Extends(detached, is_created) {
     }
     virtual ~app_launch_contextt() {
+        if (!(this->destroyed())) {
+            const creator_exception e = failed_to_destroy;
+            GNOMA_LOG_ERROR("...failed this->destroyed() throw(creator_exception e = failed_to_destroy = " << failed_to_destroy << ")...");
+            throw (e);
+        }
     }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
@@ -67,7 +72,11 @@ public:
     }
     virtual bool destroy_detached(attached_t detached) const {
         if ((detached)) {
+            GNOMA_LOG_MESSAGE_DEBUG("g_object_unref(detached = " << gpointer_to_string(detached) << ")...");
+            g_object_unref(detached);
             return true;
+        } else {
+            GNOMA_LOG_ERROR("...detached = 0");
         }
         return false;
     }

@@ -53,7 +53,7 @@ public:
     virtual ~displayt() {
         if (!(this->closed())) {
             opener_exception e = failed_to_close;
-            GNOMA_LOG_ERROR("...throwing opener_exception e = failed_to_close");
+            GNOMA_LOG_ERROR("...failed on this->closed() throw(opener_exception e = failed_to_close)...");
             throw (e);
         }
     }
@@ -103,6 +103,8 @@ public:
             GNOMA_LOG_MESSAGE_DEBUG("...gdk_display_close(detached = " << pointer_to_string(detached) << ")");
             gdk_display_close(detached);
             return true;
+        } else {
+            GNOMA_LOG_ERROR("...detached = 0");
         }
         return false;
     }
